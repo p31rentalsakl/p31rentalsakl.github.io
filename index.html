@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>P31 Rentals | Dress Hire Auckland</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #FAF7F2;
+      --blush: #E8D5C4;
+      --rose: #C4856A;
+      --deep: #3B2A24;
+      --gold: #B8965A;
+      --muted: #8A7060;
+      --white: #FFFFFF;
+      --shadow: rgba(59,42,36,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--deep);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(250,247,242,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--blush);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 70px;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 600; letter-spacing: 0.04em;
+      color: var(--deep); text-decoration: none;
+    }
+    .nav-logo span { color: var(--rose); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--deep);
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--rose); }
+    .nav-cta {
+      background: var(--rose); color: var(--white);
+      padding: 0.55rem 1.3rem; border-radius: 2px;
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--deep); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--deep); transition: all 0.3s; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 120px 2rem 80px;
+      background: linear-gradient(160deg, var(--cream) 0%, #F0E6DC 60%, var(--blush) 100%);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 70% 40%, rgba(196,133,106,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--rose); font-weight: 500; margin-bottom: 1.2rem;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 300; line-height: 1.05;
+      color: var(--deep); margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+    .hero h1 em { font-style: italic; color: var(--rose); }
+    .hero p {
+      max-width: 480px; font-size: 1.05rem; color: var(--muted);
+      line-height: 1.7; margin-bottom: 2.5rem;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp 0.8s 0.45s ease both;
+    }
+    .btn-primary {
+      background: var(--rose); color: var(--white);
+      padding: 0.9rem 2.2rem; border-radius: 2px;
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--deep); transform: translateY(-1px); }
+    .btn-outline {
+      border: 1.5px solid var(--deep); color: var(--deep);
+      padding: 0.9rem 2.2rem; border-radius: 2px;
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { background: var(--deep); color: var(--white); transform: translateY(-1px); }
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: var(--muted); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+    .hero-scroll::after { content: '↓'; font-size: 1.2rem; }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--rose); font-weight: 500; margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 300; line-height: 1.15; color: var(--deep);
+      margin-bottom: 1rem;
+    }
+    .section-title em { font-style: italic; color: var(--rose); }
+
+    /* ── HOW IT WORKS ── */
+    #how-it-works { background: var(--white); }
+    .steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2.5rem; margin-top: 3.5rem;
+    }
+    .step { text-align: center; padding: 2rem 1.5rem; position: relative; }
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem; font-weight: 300; color: var(--blush);
+      line-height: 1; margin-bottom: 1rem;
+    }
+    .step-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+    .step h3 { font-size: 1rem; font-weight: 500; margin-bottom: 0.6rem; letter-spacing: 0.03em; }
+    .step p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── GALLERY ── */
+    #gallery { background: var(--cream); }
+    .gallery-intro { max-width: 520px; margin-bottom: 3rem; }
+    .gallery-intro p { color: var(--muted); line-height: 1.7; margin-top: 0.8rem; }
+    .gallery-filter {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2.5rem;
+    }
+    .filter-btn {
+      padding: 0.45rem 1.1rem; border: 1.5px solid var(--blush);
+      background: none; border-radius: 2px; cursor: pointer;
+      font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active { background: var(--rose); border-color: var(--rose); color: var(--white); }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .dress-card {
+      background: var(--white); border-radius: 4px;
+      overflow: hidden; box-shadow: 0 2px 12px var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+    }
+    .dress-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px var(--shadow); }
+    .dress-img {
+      width: 100%; aspect-ratio: 3/4; object-fit: cover;
+      background: linear-gradient(135deg, var(--blush) 0%, #E0C8B8 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; position: relative; overflow: hidden;
+    }
+    .dress-img::after {
+      content: '👗';
+      font-size: 3.5rem;
+    }
+    .dress-img.alt1::after { content: '✨'; }
+    .dress-img.alt2::after { content: '🌸'; }
+    .dress-img.alt3::after { content: '💫'; }
+    .dress-info { padding: 1rem 1.1rem 1.2rem; }
+    .dress-name { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .dress-meta { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.6rem; }
+    .dress-price { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--rose); font-weight: 600; }
+    .dress-tag {
+      display: inline-block; font-size: 0.65rem; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.2rem 0.5rem;
+      background: var(--blush); color: var(--deep); border-radius: 2px; margin-left: 0.5rem;
+    }
+    .gallery-note {
+      margin-top: 2.5rem; text-align: center;
+      font-size: 0.9rem; color: var(--muted);
+    }
+    .gallery-note a { color: var(--rose); }
+
+    /* ── PRICING ── */
+    #pricing { background: var(--deep); color: var(--cream); }
+    #pricing .section-label { color: var(--gold); }
+    #pricing .section-title { color: var(--cream); }
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .price-card {
+      border: 1px solid rgba(232,213,196,0.2);
+      border-radius: 4px; padding: 2.2rem 1.8rem;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+    }
+    .price-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+    .price-card.featured {
+      border-color: var(--gold);
+      background: rgba(184,150,90,0.08);
+    }
+    .price-card.featured::before {
+      content: 'Most Popular';
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: var(--deep);
+      font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+      font-weight: 600; padding: 0.25rem 0.8rem; border-radius: 2px;
+    }
+    .price-type { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+    .price-amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 300; color: var(--cream); line-height: 1;
+    }
+    .price-amount span { font-size: 1.2rem; vertical-align: top; margin-top: 0.4rem; display: inline-block; }
+    .price-desc { font-size: 0.85rem; color: rgba(250,247,242,0.6); margin: 0.8rem 0 1.5rem; line-height: 1.6; }
+    .price-features { list-style: none; }
+    .price-features li {
+      font-size: 0.85rem; color: rgba(250,247,242,0.8);
+      padding: 0.4rem 0; border-bottom: 1px solid rgba(232,213,196,0.1);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .price-features li::before { content: '✓'; color: var(--gold); font-weight: 700; }
+
+    /* ── AVAILABILITY CALENDAR ── */
+    #availability { background: var(--white); }
+    .calendar-wrapper { margin-top: 3rem; }
+    .cal-controls {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .cal-month {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 400; color: var(--deep);
+    }
+    .cal-nav { display: flex; gap: 0.5rem; }
+    .cal-nav button {
+      width: 36px; height: 36px; border: 1.5px solid var(--blush);
+      background: none; border-radius: 2px; cursor: pointer; font-size: 1rem;
+      color: var(--deep); transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+    }
+    .cal-nav button:hover { background: var(--rose); border-color: var(--rose); color: var(--white); }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+    .cal-day-name {
+      text-align: center; font-size: 0.7rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted); padding: 0.5rem 0; font-weight: 500;
+    }
+    .cal-day {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      border-radius: 2px; font-size: 0.85rem; cursor: default;
+      border: 1.5px solid transparent; transition: all 0.15s;
+    }
+    .cal-day.empty { background: none; }
+    .cal-day.available { background: #EEF5EE; color: #3A7A3A; border-color: #C8E6C8; }
+    .cal-day.booked { background: #FBE9E9; color: #B84444; border-color: #F5C4C4; }
+    .cal-day.today { border-color: var(--rose); font-weight: 600; }
+    .cal-legend {
+      display: flex; gap: 1.5rem; margin-top: 1.2rem; flex-wrap: wrap;
+    }
+    .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--muted); }
+    .legend-dot { width: 12px; height: 12px; border-radius: 2px; }
+    .legend-dot.available { background: #EEF5EE; border: 1px solid #C8E6C8; }
+    .legend-dot.booked { background: #FBE9E9; border: 1px solid #F5C4C4; }
+    .cal-note {
+      margin-top: 1.5rem; font-size: 0.85rem; color: var(--muted);
+      background: var(--cream); padding: 1rem 1.2rem; border-left: 3px solid var(--rose); border-radius: 0 2px 2px 0;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--cream); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center; margin-top: 3rem;
+    }
+    .about-img-placeholder {
+      aspect-ratio: 4/5; background: linear-gradient(135deg, var(--blush), #D4B5A0);
+      border-radius: 4px; display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; position: relative; overflow: hidden;
+    }
+    .about-img-placeholder::after {
+      content: '';
+      position: absolute; bottom: -20px; right: -20px;
+      width: 120px; height: 120px;
+      border-radius: 50%; background: rgba(196,133,106,0.2);
+    }
+    .about-content p {
+      color: var(--muted); line-height: 1.8; margin-bottom: 1.2rem; font-size: 0.95rem;
+    }
+    .about-stats {
+      display: flex; gap: 2rem; margin: 2rem 0; flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem; font-weight: 300; color: var(--rose); line-height: 1;
+    }
+    .stat-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }
+
+    /* ── BOOKING FORM ── */
+    #booking { background: linear-gradient(135deg, var(--blush) 0%, #E0C4B0 100%); }
+    #booking .section-title { color: var(--deep); }
+    .form-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.2rem; margin-top: 3rem;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group.full { grid-column: 1 / -1; }
+    label {
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--deep); font-weight: 500;
+    }
+    input, select, textarea {
+      padding: 0.85rem 1rem; border: 1.5px solid rgba(59,42,36,0.2);
+      background: rgba(250,247,242,0.8); border-radius: 2px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--deep);
+      transition: border-color 0.2s; outline: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--rose); background: var(--white); }
+    textarea { resize: vertical; min-height: 120px; }
+    .form-submit {
+      width: 100%; padding: 1rem; background: var(--deep); color: var(--white);
+      border: none; border-radius: 2px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.5rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .form-submit:hover { background: var(--rose); transform: translateY(-1px); }
+    .form-note { font-size: 0.8rem; color: var(--muted); margin-top: 0.8rem; text-align: center; }
+    .success-msg {
+      display: none; background: #EEF5EE; border: 1px solid #C8E6C8;
+      padding: 1.2rem; border-radius: 4px; text-align: center;
+      color: #3A7A3A; font-size: 0.9rem; margin-top: 1rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--deep); color: rgba(250,247,242,0.7);
+      padding: 4rem 2rem 2rem; text-align: center;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; color: var(--cream); margin-bottom: 0.5rem;
+    }
+    .footer-logo span { color: var(--rose); }
+    .footer-tagline { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; }
+    .footer-links {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;
+      list-style: none; margin-bottom: 2.5rem;
+    }
+    .footer-links a { color: rgba(250,247,242,0.6); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--rose); }
+    .footer-social { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2.5rem; }
+    .social-btn {
+      width: 40px; height: 40px; border: 1px solid rgba(232,213,196,0.3);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: rgba(250,247,242,0.6); text-decoration: none; font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .social-btn:hover { border-color: var(--rose); color: var(--rose); }
+    .footer-bottom { border-top: 1px solid rgba(232,213,196,0.1); padding-top: 1.5rem; font-size: 0.78rem; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-6px); }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: 1; }
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── MOBILE NAV MENU ── */
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; z-index: 99;
+      background: var(--cream); flex-direction: column;
+      align-items: center; justify-content: center; gap: 2rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 300; color: var(--deep);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--rose); }
+    .mobile-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      font-size: 1.5rem; cursor: pointer; background: none;
+      border: none; color: var(--deep);
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">P<span>31</span> Rentals</a>
+  <ul class="nav-links">
+    <li><a href="#gallery">Collection</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#availability">Availability</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#booking">Book</a></li>
+  </ul>
+  <a href="#booking" class="nav-cta">Enquire Now</a>
+  <button class="hamburger" onclick="openMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMenu()">✕</button>
+  <a href="#gallery" onclick="closeMenu()">Collection</a>
+  <a href="#how-it-works" onclick="closeMenu()">How It Works</a>
+  <a href="#pricing" onclick="closeMenu()">Pricing</a>
+  <a href="#availability" onclick="closeMenu()">Availability</a>
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#booking" onclick="closeMenu()">Book Now</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-tag">Auckland Dress Hire ✦ P31 Rentals</p>
+  <h1>Wear Something<br><em>Extraordinary</em></h1>
+  <p>Beautiful dresses for hire in Auckland. Look and feel amazing for any occasion — without the full price tag.</p>
+  <div class="hero-btns">
+    <a href="#gallery" class="btn-primary">Browse the Collection</a>
+    <a href="#how-it-works" class="btn-outline">How It Works</a>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+  <div class="container">
+    <p class="section-label">Simple & Stress-Free</p>
+    <h2 class="section-title">How It <em>Works</em></h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <span class="step-icon">👗</span>
+        <h3>Browse & Choose</h3>
+        <p>Browse our collection online and find the dress you love. Check availability on the calendar.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <span class="step-icon">📋</span>
+        <h3>Send an Enquiry</h3>
+        <p>Fill in the booking form with your event date, dress of choice and your size. We'll confirm availability.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <span class="step-icon">✨</span>
+        <h3>Pick Up & Shine</h3>
+        <p>Collect your dress from our Auckland location, wear it, feel amazing, and return it after your event.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <span class="step-icon">🌸</span>
+        <h3>Return & Repeat</h3>
+        <p>Simply return the dress. No cleaning needed — we take care of that. Then come back for your next look!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="gallery-intro">
+      <p class="section-label">The Collection</p>
+      <h2 class="section-title">Find Your <em>Perfect Look</em></h2>
+      <p>A curated collection of stunning dresses for every occasion. More dresses being added regularly — check back often!</p>
+    </div>
+    <div class="gallery-filter">
+      <button class="filter-btn active" onclick="filterDresses('all', this)">All</button>
+      <button class="filter-btn" onclick="filterDresses('races', this)">Races</button>
+      <button class="filter-btn" onclick="filterDresses('wedding', this)">Wedding Guest</button>
+      <button class="filter-btn" onclick="filterDresses('ball', this)">Ball / Formal</button>
+      <button class="filter-btn" onclick="filterDresses('party', this)">Party</button>
+    </div>
+    <div class="gallery-grid" id="galleryGrid">
+      <!-- Cards injected by JS -->
+    </div>
+    <p class="gallery-note">
+      📸 <strong>Photos coming soon!</strong> In the meantime, <a href="#booking">send an enquiry</a> to find out what's available.
+    </p>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <p class="section-label">Simple Pricing</p>
+    <h2 class="section-title">Rental <em>Rates</em></h2>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <p class="price-type">Weekend Hire</p>
+        <div class="price-amount"><span>$</span>XX</div>
+        <p class="price-desc">Fri–Mon return. Perfect for weekend events, races, and parties.</p>
+        <ul class="price-features">
+          <li>3-night hire period</li>
+          <li>Fri pickup / Mon return</li>
+          <li>Cleaning included</li>
+          <li>Auckland pickup & return</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <p class="price-type">4-Day Hire</p>
+        <div class="price-amount"><span>$</span>XX</div>
+        <p class="price-desc">Flexible 4-day window. Great for weddings and events with travel involved.</p>
+        <ul class="price-features">
+          <li>4-night hire period</li>
+          <li>Flexible pickup date</li>
+          <li>Cleaning included</li>
+          <li>Auckland pickup & return</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <p class="price-type">Week Hire</p>
+        <div class="price-amount"><span>$</span>XX</div>
+        <p class="price-desc">A full week for longer trips, destination events, or back-to-back occasions.</p>
+        <ul class="price-features">
+          <li>7-night hire period</li>
+          <li>Flexible pickup date</li>
+          <li>Cleaning included</li>
+          <li>Auckland pickup & return</li>
+        </ul>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:2rem; color:rgba(250,247,242,0.5); font-size:0.85rem;">
+      💬 Prices are placeholders — update these with your real rates!
+    </p>
+  </div>
+</section>
+
+<!-- AVAILABILITY CALENDAR -->
+<section id="availability">
+  <div class="container">
+    <p class="section-label">Check Availability</p>
+    <h2 class="section-title">When Is It <em>Available?</em></h2>
+    <p style="color:var(--muted); margin-top:0.5rem; max-width:500px; line-height:1.7;">
+      Use this calendar as a general guide. For confirmed availability on a specific dress, please send an enquiry.
+    </p>
+    <div class="calendar-wrapper">
+      <div class="cal-controls">
+        <div class="cal-month" id="calMonthLabel"></div>
+        <div class="cal-nav">
+          <button onclick="changeMonth(-1)">&#8592;</button>
+          <button onclick="changeMonth(1)">&#8594;</button>
+        </div>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-legend">
+        <div class="legend-item"><div class="legend-dot available"></div> Available</div>
+        <div class="legend-item"><div class="legend-dot booked"></div> Booked</div>
+      </div>
+      <div class="cal-note">
+        📅 This calendar is a general guide. <strong>Always confirm availability by sending an enquiry</strong> — we'll get back to you quickly!
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-placeholder">🌸</div>
+      <div class="about-content">
+        <p class="section-label">Our Story</p>
+        <h2 class="section-title">About <em>P31 Rentals</em></h2>
+        <p>Welcome to P31 Rentals! We're a small Auckland-based dress hire business with a big passion for helping you feel confident and gorgeous for any occasion.</p>
+        <p>Whether you're heading to the races, a wedding, a ball, or a night out — we believe you deserve to wear something beautiful without the stress of buying something you'll only wear once.</p>
+        <p>We're based in Auckland and offer easy pickup and return. We'd love to help you find your perfect look!</p>
+        <div class="about-stats">
+          <div class="stat">
+            <div class="stat-num">✨</div>
+            <div class="stat-label">Carefully curated</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">💕</div>
+            <div class="stat-label">Every occasion</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">🌿</div>
+            <div class="stat-label">Sustainable fashion</div>
+          </div>
+        </div>
+        <a href="#booking" class="btn-primary">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING FORM -->
+<section id="booking">
+  <div class="container" style="max-width:700px;">
+    <p class="section-label">Make an Enquiry</p>
+    <h2 class="section-title">Book Your <em>Dress</em></h2>
+    <p style="color:var(--muted); margin-top:0.5rem; line-height:1.7;">
+      Fill in the form below and we'll get back to you within 24 hours to confirm availability and arrange your hire.
+    </p>
+    <form class="form-grid" id="bookingForm" onsubmit="submitForm(event)">
+      <div class="form-group">
+        <label for="fname">First Name *</label>
+        <input type="text" id="fname" name="fname" placeholder="Jane" required/>
+      </div>
+      <div class="form-group">
+        <label for="lname">Last Name *</label>
+        <input type="text" id="lname" name="lname" placeholder="Smith" required/>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" name="email" placeholder="jane@email.com" required/>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone / WhatsApp</label>
+        <input type="tel" id="phone" name="phone" placeholder="021 XXX XXXX"/>
+      </div>
+      <div class="form-group">
+        <label for="event-date">Event Date *</label>
+        <input type="date" id="event-date" name="event-date" required/>
+      </div>
+      <div class="form-group">
+        <label for="return-date">Return Date *</label>
+        <input type="date" id="return-date" name="return-date" required/>
+      </div>
+      <div class="form-group">
+        <label for="occasion">Occasion *</label>
+        <select id="occasion" name="occasion" required>
+          <option value="" disabled selected>Select an occasion</option>
+          <option>Races</option>
+          <option>Wedding / Wedding Guest</option>
+          <option>Ball / Formal Event</option>
+          <option>Party / Birthday</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="size">Your Size</label>
+        <select id="size" name="size">
+          <option value="" disabled selected>Select your size</option>
+          <option>Size 6</option>
+          <option>Size 8</option>
+          <option>Size 10</option>
+          <option>Size 12</option>
+          <option>Size 14</option>
+          <option>Size 16</option>
+          <option>Size 18</option>
+          <option>Size 20+</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label for="dress">Dress / Style You're Interested In</label>
+        <input type="text" id="dress" name="dress" placeholder="e.g. the black maxi, or I'm open to suggestions!"/>
+      </div>
+      <div class="form-group full">
+        <label for="message">Anything Else We Should Know?</label>
+        <textarea id="message" name="message" placeholder="Tell us about your event, colour preferences, budget — anything helps!"></textarea>
+      </div>
+      <div class="form-group full">
+        <button type="submit" class="form-submit">Send Enquiry →</button>
+        <p class="form-note">We'll reply within 24 hours. Can't wait to help you find your look! 🌸</p>
+      </div>
+    </form>
+    <div class="success-msg" id="successMsg">
+      🎉 Thank you! Your enquiry has been sent. We'll be in touch within 24 hours!
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">P<span>31</span> Rentals</div>
+  <p class="footer-tagline">Auckland Dress Hire</p>
+  <ul class="footer-links">
+    <li><a href="#gallery">Collection</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#availability">Availability</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#booking">Book</a></li>
+  </ul>
+  <div class="footer-social">
+    <a href="#" class="social-btn" title="Instagram">📷</a>
+    <a href="#" class="social-btn" title="Facebook">📘</a>
+  </div>
+  <div class="footer-bottom">
+    <p>📍 Auckland, New Zealand &nbsp;·&nbsp; © 2025 P31 Rentals</p>
+  </div>
+</footer>
+
+<script>
+  // ── SAMPLE DRESS DATA (replace with your own!) ──
+  const dresses = [
+    { name: 'Emerald Satin Maxi', size: 'Size 10–14', price: '$XX', tag: 'New', cat: 'races', style: '' },
+    { name: 'Blush Ruffle Midi', size: 'Size 12–16', price: '$XX', tag: '', cat: 'wedding', style: 'alt1' },
+    { name: 'Midnight Sequin Gown', size: 'Size 8–12', price: '$XX', tag: 'Popular', cat: 'ball', style: 'alt2' },
+    { name: 'Floral Wrap Dress', size: 'Size 14–18', price: '$XX', tag: '', cat: 'party', style: 'alt3' },
+    { name: 'Champagne Lace Maxi', size: 'Size 10–14', price: '$XX', tag: '', cat: 'wedding', style: '' },
+    { name: 'Red Halter Mini', size: 'Size 8–12', price: '$XX', tag: 'New', cat: 'party', style: 'alt1' },
+    { name: 'Dusty Rose Gown', size: 'Size 12–16', price: '$XX', tag: '', cat: 'ball', style: 'alt2' },
+    { name: 'Navy Satin Slip', size: 'Size 10–14', price: '$XX', tag: '', cat: 'races', style: 'alt3' },
+  ];
+
+  function renderDresses(filter) {
+    const grid = document.getElementById('galleryGrid');
+    const filtered = filter === 'all' ? dresses : dresses.filter(d => d.cat === filter);
+    grid.innerHTML = filtered.map(d => `
+      <div class="dress-card">
+        <div class="dress-img ${d.style}"></div>
+        <div class="dress-info">
+          <div class="dress-name">${d.name}${d.tag ? `<span class="dress-tag">${d.tag}</span>` : ''}</div>
+          <div class="dress-meta">${d.size}</div>
+          <div class="dress-price">${d.price} <span style="font-size:0.75rem; color:var(--muted); font-family:'DM Sans';">/ hire</span></div>
+        </div>
+      </div>
+    `).join('');
+  }
+  renderDresses('all');
+
+  function filterDresses(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderDresses(cat);
+  }
+
+  // ── CALENDAR ──
+  let calDate = new Date();
+  // Sample booked dates (day numbers for current month) — update these!
+  const bookedDays = [5, 6, 7, 14, 15, 21, 22];
+
+  function renderCalendar() {
+    const year = calDate.getFullYear();
+    const month = calDate.getMonth();
+    const today = new Date();
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+    document.getElementById('calMonthLabel').textContent = `${months[month]} ${year}`;
+
+    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    let html = days.map(d => `<div class="cal-day-name">${d}</div>`).join('');
+
+    for (let i = 0; i < firstDay; i++) html += `<div class="cal-day empty"></div>`;
+    for (let d = 1; d <= daysInMonth; d++) {
+      const isBooked = bookedDays.includes(d);
+      const isToday = today.getDate() === d && today.getMonth() === month && today.getFullYear() === year;
+      const cls = ['cal-day', isBooked ? 'booked' : 'available', isToday ? 'today' : ''].filter(Boolean).join(' ');
+      html += `<div class="${cls}">${d}</div>`;
+    }
+    document.getElementById('calGrid').innerHTML = html;
+  }
+
+  function changeMonth(dir) {
+    calDate.setMonth(calDate.getMonth() + dir);
+    renderCalendar();
+  }
+  renderCalendar();
+
+  // ── MOBILE MENU ──
+  function openMenu() { document.getElementById('mobileMenu').classList.add('open'); }
+  function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  // ── FORM SUBMIT ──
+  // NOTE: To make the form actually send emails, connect it to Formspree (free):
+  // 1. Go to formspree.io and create a free account
+  // 2. Create a new form and get your form ID
+  // 3. Replace the action below with: https://formspree.io/f/YOUR_FORM_ID
+  function submitForm(e) {
+    e.preventDefault();
+    const form = document.getElementById('bookingForm');
+    const data = new FormData(form);
+    fetch('https://formspree.io/f/mvzvoykj', {
+      method: 'POST', body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(r => {
+      if (r.ok) {
+        form.style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+      }
+    });
+  }
+</script>
+</body>
+</html>
