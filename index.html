@@ -630,80 +630,26 @@
   </div>
 </section>
 
-<!-- BOOKING FORM -->
+<!-- BOOKING SECTION -->
 <section id="booking">
-  <div class="container" style="max-width:700px;">
-    <p class="section-label">Make an Enquiry</p>
+  <div class="container" style="max-width:900px;">
+    <p class="section-label">Real-Time Booking</p>
     <h2 class="section-title">Book Your <em>Dress</em></h2>
-    <p style="color:var(--muted); margin-top:0.5rem; line-height:1.7;">
-      Fill in the form below and we'll get back to you within 24 hours to confirm availability and arrange your hire.
+    <p style="color:var(--muted); margin-top:0.5rem; margin-bottom:2.5rem; line-height:1.7;">
+      Choose your hire type, pick your dates and confirm your booking instantly. You'll receive an email confirmation straight away! 🌸
     </p>
-    <form class="form-grid" id="bookingForm" onsubmit="submitForm(event)">
-      <div class="form-group">
-        <label for="fname">First Name *</label>
-        <input type="text" id="fname" name="fname" placeholder="Jane" required/>
-      </div>
-      <div class="form-group">
-        <label for="lname">Last Name *</label>
-        <input type="text" id="lname" name="lname" placeholder="Smith" required/>
-      </div>
-      <div class="form-group">
-        <label for="email">Email Address *</label>
-        <input type="email" id="email" name="email" placeholder="jane@email.com" required/>
-      </div>
-      <div class="form-group">
-        <label for="phone">Phone / WhatsApp</label>
-        <input type="tel" id="phone" name="phone" placeholder="021 XXX XXXX"/>
-      </div>
-      <div class="form-group">
-        <label for="event-date">Event Date *</label>
-        <input type="date" id="event-date" name="event-date" required/>
-      </div>
-      <div class="form-group">
-        <label for="return-date">Return Date *</label>
-        <input type="date" id="return-date" name="return-date" required/>
-      </div>
-      <div class="form-group">
-        <label for="occasion">Occasion *</label>
-        <select id="occasion" name="occasion" required>
-          <option value="" disabled selected>Select an occasion</option>
-          <option>Races</option>
-          <option>Wedding / Wedding Guest</option>
-          <option>Ball / Formal Event</option>
-          <option>Party / Birthday</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="size">Your Size</label>
-        <select id="size" name="size">
-          <option value="" disabled selected>Select your size</option>
-          <option>Size 6</option>
-          <option>Size 8</option>
-          <option>Size 10</option>
-          <option>Size 12</option>
-          <option>Size 14</option>
-          <option>Size 16</option>
-          <option>Size 18</option>
-          <option>Size 20+</option>
-        </select>
-      </div>
-      <div class="form-group full">
-        <label for="dress">Dress / Style You're Interested In</label>
-        <input type="text" id="dress" name="dress" placeholder="e.g. the black maxi, or I'm open to suggestions!"/>
-      </div>
-      <div class="form-group full">
-        <label for="message">Anything Else We Should Know?</label>
-        <textarea id="message" name="message" placeholder="Tell us about your event, colour preferences, budget — anything helps!"></textarea>
-      </div>
-      <div class="form-group full">
-        <button type="submit" class="form-submit">Send Enquiry →</button>
-        <p class="form-note">We'll reply within 24 hours. Can't wait to help you find your look! 🌸</p>
-      </div>
-    </form>
-    <div class="success-msg" id="successMsg">
-      🎉 Thank you! Your enquiry has been sent. We'll be in touch within 24 hours!
-    </div>
+    <script type="text/javascript">
+      function loadSimplyBook() {
+        var script = document.createElement('script');
+        script.src = '//widget.simplybook.net/v2/widget/widget.js';
+        script.type = 'text/javascript';
+        script.onload = function() {
+          var widget = new SimplybookWidget({"widget_type":"iframe","url":"https:\/\/p31rentals.simplybook.net","theme":"hugo","theme_settings":{"timeline_hide_unavailable":"1","hide_past_days":"0","timeline_show_end_time":"0","timeline_modern_display":"as_slots","nav_bg_color":"#FAF7F2","sb_base_color":"#C4856A","display_item_mode":"block","body_bg_color":"#FAF7F2","sb_review_image":"","dark_font_color":"#3B2A24","light_font_color":"#ffffff","btn_color_1":"#C4856A","sb_company_label_color":"#8A7060","hide_img_mode":"0","show_sidebar":"1","sb_busy":"#c7b3b3","sb_available":"#d6ebff"},"timeline":"modern","datepicker":"top_calendar","is_rtl":false,"app_config":{"clear_session":0,"allow_switch_to_ada":0,"predefined":[]}});
+        };
+        document.body.appendChild(script);
+      }
+      window.addEventListener('load', loadSimplyBook);
+    </script>
   </div>
 </section>
 
@@ -801,25 +747,7 @@
   function openMenu() { document.getElementById('mobileMenu').classList.add('open'); }
   function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
 
-  // ── FORM SUBMIT ──
-  // NOTE: To make the form actually send emails, connect it to Formspree (free):
-  // 1. Go to formspree.io and create a free account
-  // 2. Create a new form and get your form ID
-  // 3. Replace the action below with: https://formspree.io/f/YOUR_FORM_ID
-  function submitForm(e) {
-    e.preventDefault();
-    const form = document.getElementById('bookingForm');
-    const data = new FormData(form);
-    fetch('https://formspree.io/f/mvzvoykj', {
-      method: 'POST', body: data,
-      headers: { 'Accept': 'application/json' }
-    }).then(r => {
-      if (r.ok) {
-        form.style.display = 'none';
-        document.getElementById('successMsg').style.display = 'block';
-      }
-    });
-  }
+  // Booking handled by SimplyBook.me widget above
 </script>
 </body>
 </html>
