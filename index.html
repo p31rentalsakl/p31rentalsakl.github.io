@@ -638,18 +638,14 @@
     <p style="color:var(--muted); margin-top:0.5rem; margin-bottom:2.5rem; line-height:1.7;">
       Choose your hire type, pick your dates and confirm your booking instantly. You'll receive an email confirmation straight away! 🌸
     </p>
-    <script type="text/javascript">
-      function loadSimplyBook() {
-        var script = document.createElement('script');
-        script.src = '//widget.simplybook.net/v2/widget/widget.js';
-        script.type = 'text/javascript';
-        script.onload = function() {
-          var widget = new SimplybookWidget({"widget_type":"iframe","url":"https:\/\/p31rentals.simplybook.net","theme":"hugo","theme_settings":{"timeline_hide_unavailable":"1","hide_past_days":"0","timeline_show_end_time":"0","timeline_modern_display":"as_slots","nav_bg_color":"#FAF7F2","sb_base_color":"#C4856A","display_item_mode":"block","body_bg_color":"#FAF7F2","sb_review_image":"","dark_font_color":"#3B2A24","light_font_color":"#ffffff","btn_color_1":"#C4856A","sb_company_label_color":"#8A7060","hide_img_mode":"0","show_sidebar":"1","sb_busy":"#c7b3b3","sb_available":"#d6ebff"},"timeline":"modern","datepicker":"top_calendar","is_rtl":false,"app_config":{"clear_session":0,"allow_switch_to_ada":0,"predefined":[]}});
-        };
-        document.body.appendChild(script);
-      }
-      window.addEventListener('load', loadSimplyBook);
-    </script>
+    <iframe
+      src="https://p31rentals.simplybook.net/v2/#book"
+      width="100%"
+      height="700"
+      frameborder="0"
+      style="border-radius:4px; box-shadow: 0 2px 20px rgba(59,42,36,0.1);"
+      title="P31 Rentals Booking">
+    </iframe>
   </div>
 </section>
 
